@@ -24,28 +24,55 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Trip Expense Splitter</h2>
+<div style={{ padding: 20 }}>
+<h2>Trip Expense Splitter</h2>
 
-      {expenses.map((e,i)=>(
-        <div key={i}>
-          <input placeholder="Name" onChange={v=>update(i,"name",v.target.value)} />
-          <input type="number" placeholder="Amount" onChange={v=>update(i,"amount",v.target.value)} />
-          <select onChange={v=>update(i,"currency",v.target.value)}>
-            <option>USD</option>
-            <option>EUR</option>
-            <option>INR</option>
-            <option>CAD</option>
-          </select>
-        </div>
-      ))}
+{expenses.map((e,i)=>(
+<div key={i} style={{ marginBottom: 10 }}>
+<input
+placeholder="Name"
+onChange={v=>update(i,"name",v.target.value)}
+/>
 
-      <button onClick={addRow}>Add</button>
-      <button onClick={calculate}>Calculate</button>
+<input
+type="number"
+placeholder="Amount"
+onChange={v=>update(i,"amount",v.target.value)}
+/>
 
-      {result && result.transactions.map((t,i)=>(
-        <p key={i}>{t.from} pays {t.to}: ${t.amount}</p>
-      ))}
-    </div>
-  );
+<select
+onChange={v=>update(i,"currency",v.target.value)}
+>
+<option>USD</option>
+<option>EUR</option>
+<option>INR</option>
+<option>CAD</option>
+</select>
+</div>
+))}
+
+<button onClick={addRow}>Add Expense</button>
+<button onClick={calculate}>Calculate</button>
+
+{result && (
+<div style={{ marginTop: 20 }}>
+<h3>Settlement</h3>
+
+{result.transactions?.length > 0 ? (
+result.transactions.map((t,i)=>(
+<p key={i}>
+{t.from} pays {t.to}: ${t.amount}
+</p>
+))
+) : (
+<p>No transactions found</p>
+)}
+
+<pre>
+{JSON.stringify(result, null, 2)}
+</pre>
+</div>
+)}
+</div>
+);
 }
